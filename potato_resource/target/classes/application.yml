@@ -1,0 +1,14 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: potato-resource
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.11.129:3306/potato_resource?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  jpa:
+    database: MySQL
+    show‐sql: true
+    generate‐ddl: true

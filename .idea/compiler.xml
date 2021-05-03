@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="potato_common" />
+        <module name="potato_advice" />
+        <module name="potato_web" />
+        <module name="potato_message" />
+        <module name="potato_gathering" />
+        <module name="potato_eureka" />
+        <module name="potato_resource" />
+        <module name="potato_base" />
+        <module name="potato_user" />
+        <module name="potato_search" />
+        <module name="potato_manager" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="potato_sms" target="1.8" />
+      <module name="tensquare-user" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="potato_advice" options="-parameters" />
+      <module name="potato_base" options="-parameters" />
+      <module name="potato_common" options="-parameters" />
+      <module name="potato_eureka" options="-parameters" />
+      <module name="potato_gathering" options="-parameters" />
+      <module name="potato_manager" options="-parameters" />
+      <module name="potato_message" options="-parameters" />
+      <module name="potato_resource" options="-parameters" />
+      <module name="potato_search" options="-parameters" />
+      <module name="potato_sms" options="-parameters" />
+      <module name="potato_user" options="-parameters" />
+      <module name="potato_web" options="-parameters" />
+      <module name="tensquare-user" options="-parameters" />
+    </option>
+  </component>
+</project>

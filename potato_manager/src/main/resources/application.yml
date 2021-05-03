@@ -1,0 +1,35 @@
+server:
+  port: 9010
+spring:
+  application:
+    name: potato-manager
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true    # 确保模块之间能够跨域访问
+zuul:
+  routes:
+    potato-base:
+      path: /label/**   #拦截路径
+      serviceId: potato-base  #微服务的名称
+    potato-advice:
+      path: /advice/**
+      serviceId: potato-advice
+    potato-gathering:
+      path: /gathering/**
+      serviceId: potato-gathering
+    potato-message:
+      path: /message/**
+      serviceId: potato-message
+    potato-resource:
+      path: /resource/**
+      serviceId: potato-resource
+    potato-user:
+      path: /user/**
+      serviceId: potato-user
+jwt:
+  config:
+    key: potato
+    ttl: 3600000
