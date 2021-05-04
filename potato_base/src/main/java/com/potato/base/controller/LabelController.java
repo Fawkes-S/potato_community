@@ -26,8 +26,6 @@ public class LabelController {
 
     @GetMapping
     public Result findAll() {
-        String header = request.getHeader("Authorization");
-        System.out.println(header);
         return new Result(true, StatusCode.OK, "查询成功", labelServices.findAll());
     }
 

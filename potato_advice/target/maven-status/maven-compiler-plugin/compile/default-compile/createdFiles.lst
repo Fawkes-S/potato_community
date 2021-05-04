@@ -1,0 +1,8 @@
+com\potato\advice\controller\AdviceController.class
+com\potato\advice\pojo\Advice.class
+com\potato\advice\config\InterceptorConfig.class
+com\potato\advice\dao\AdviceDao.class
+com\potato\advice\controller\BaseExceptionHandler.class
+com\potato\advice\service\AdviceService.class
+com\potato\advice\interceptor\JwtInterceptor.class
+com\potato\advice\AdviceApplication.class

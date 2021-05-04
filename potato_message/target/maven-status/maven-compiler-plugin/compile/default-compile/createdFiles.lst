@@ -1,0 +1,7 @@
+com\potato\message\dao\MessageDao.class
+com\potato\message\MessageApplication.class
+com\potato\message\pojo\Message.class
+com\potato\message\service\MessageService.class
+com\potato\message\controller\MessageController.class
+com\potato\message\service\MessageService$1.class
+com\potato\message\controller\BaseExceptionHandler.class

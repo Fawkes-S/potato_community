@@ -1,0 +1,5 @@
+com\potato\search\dao\MessageDao.class
+com\potato\search\SearchApplication.class
+com\potato\search\service\MessageService.class
+com\potato\search\controller\MessageController.class
+com\potato\search\pojo\Message.class

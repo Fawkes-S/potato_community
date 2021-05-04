@@ -1,0 +1,8 @@
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\pojo\Advice.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\service\AdviceService.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\interceptor\JwtInterceptor.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\controller\AdviceController.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\controller\BaseExceptionHandler.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\dao\AdviceDao.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\config\InterceptorConfig.java
+C:\Users\12175\IdeaProjects\potato_parent\potato_advice\src\main\java\com\potato\advice\AdviceApplication.java

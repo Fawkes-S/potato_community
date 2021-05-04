@@ -14,3 +14,9 @@ spring:
     generate‐ddl: true
   redis:
     host: 192.168.11.129
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true    # 确保模块之间能够跨域访问

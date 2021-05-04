@@ -1,0 +1,6 @@
+com\potato\base\dao\LabelDao.class
+com\potato\base\pojo\Label.class
+com\potato\base\service\LabelService.class
+com\potato\base\controller\LabelController.class
+com\potato\base\BaseApplication.class
+com\potato\base\controller\BaseExceptionHandler.class
