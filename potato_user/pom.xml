@@ -5,7 +5,7 @@
         <artifactId>potato_parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>tensquare-user</artifactId>
+    <artifactId>potato-user</artifactId>
 
     <dependencies>
         <dependency>
