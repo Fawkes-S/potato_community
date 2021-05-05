@@ -30,7 +30,6 @@ public class Gathering implements Serializable{
     private String address;//举办地点
     private Date enrolltime;//报名截止
     private String state;//是否可见
-    private String city;//城市
 
     public String getId() {
         return id;
@@ -120,11 +119,4 @@ public class Gathering implements Serializable{
         this.state = state;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

@@ -154,10 +154,6 @@ public class SiteService {
                 if (searchMap.get("url")!=null && !"".equals(searchMap.get("url"))) {
                     predicateList.add(cb.like(root.get("url").as(String.class), "%"+(String)searchMap.get("url")+"%"));
                 }
-                // 标签
-                if (searchMap.get("label")!=null && !"".equals(searchMap.get("label"))) {
-                    predicateList.add(cb.like(root.get("label").as(String.class), "%"+(String)searchMap.get("label")+"%"));
-                }
 
 
 

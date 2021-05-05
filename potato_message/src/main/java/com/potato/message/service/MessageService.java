@@ -139,10 +139,6 @@ public class MessageService {
                 if (searchMap.get("id")!=null && !"".equals(searchMap.get("id"))) {
                     predicateList.add(cb.like(root.get("id").as(String.class), "%"+(String)searchMap.get("id")+"%"));
                 }
-                // 专栏ID
-                if (searchMap.get("columnid")!=null && !"".equals(searchMap.get("columnid"))) {
-                    predicateList.add(cb.like(root.get("columnid").as(String.class), "%"+(String)searchMap.get("columnid")+"%"));
-                }
                 // 用户ID
                 if (searchMap.get("userid")!=null && !"".equals(searchMap.get("userid"))) {
                     predicateList.add(cb.like(root.get("userid").as(String.class), "%"+(String)searchMap.get("userid")+"%"));
@@ -170,10 +166,6 @@ public class MessageService {
                 // 审核状态
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                     predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
-                }
-                // 所属频道
-                if (searchMap.get("channelid")!=null && !"".equals(searchMap.get("channelid"))) {
-                    predicateList.add(cb.like(root.get("channelid").as(String.class), "%"+(String)searchMap.get("channelid")+"%"));
                 }
                 // URL
                 if (searchMap.get("url")!=null && !"".equals(searchMap.get("url"))) {

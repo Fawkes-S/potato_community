@@ -20,7 +20,7 @@ public class Message implements Serializable{
 
 
 
-    private String columnid;//专栏ID
+
     private String userid;//用户ID
     private String title;//标题
     private String content;//资讯正文
@@ -33,7 +33,6 @@ public class Message implements Serializable{
     private Integer thumbup;//点赞数
     private Integer comment;//评论数
     private String state;//审核状态
-    private String channelid;//所属频道
     private String url;//URL
     private String type;//类型
 
@@ -46,13 +45,6 @@ public class Message implements Serializable{
         this.id = id;
     }
 
-    public String getColumnid() {
-        return columnid;
-    }
-
-    public void setColumnid(String columnid) {
-        this.columnid = columnid;
-    }
 
     public String getUserid() {
         return userid;
@@ -148,14 +140,6 @@ public class Message implements Serializable{
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getChannelid() {
-        return channelid;
-    }
-
-    public void setChannelid(String channelid) {
-        this.channelid = channelid;
     }
 
     public String getUrl() {

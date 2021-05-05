@@ -27,7 +27,7 @@ public class Site implements Serializable{
     private Date createtime;
     private String state;
     private String url;
-    private String label;
+
 
     public String getId() {
         return id;
@@ -109,11 +109,5 @@ public class Site implements Serializable{
         this.url = url;
     }
 
-    public String getLabel() {
-        return label;
-    }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
 }

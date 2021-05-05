@@ -159,10 +159,7 @@ public class GatheringService {
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                     predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
                 }
-                // 城市
-                if (searchMap.get("city")!=null && !"".equals(searchMap.get("city"))) {
-                    predicateList.add(cb.like(root.get("city").as(String.class), "%"+(String)searchMap.get("city")+"%"));
-                }
+
 
                 return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 
