@@ -24,7 +24,7 @@ zuul:
       path: /message/**
       serviceId: potato-message
     potato-resource:
-      path: /resource/**
+      path: /site/**
       serviceId: potato-resource
     potato-user:
       path: /user/**
