@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.IdWorker;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务层
@@ -49,15 +51,27 @@ public class AdviceService {
     }
 
     /**
+     * 条件查询+分页
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<Advice> findSearch(int page, int size) {
+        PageRequest pageRequest =  PageRequest.of(page-1, size);
+        return adviceDao.findAll(pageRequest);
+    }
+
+    /**
      * 添加
      */
     public void add(Advice advice){
 
         //使用idWord获取一个id值
         advice.set_id(idWorker.nextId()+"");
+        advice.setState("1");
         adviceDao.save(advice);
 
-        //判断哪些是吐槽的评论
+        //判断哪些是吐槽的评论，筛选出来(key:parent_id)
         if(advice.getParentid()!=null && !advice.getParentid().equals("")){
             //更新该评论对应的吐槽的回复数+1
 
@@ -99,6 +113,7 @@ public class AdviceService {
     }
 
 
+
     /**
      * 点赞只修改对应的字段
      */
@@ -115,4 +130,6 @@ public class AdviceService {
 
         mongoTemplate.updateFirst(query,update,"advice");
     }
+
+
 }

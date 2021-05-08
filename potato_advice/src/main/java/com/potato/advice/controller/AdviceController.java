@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import com.potato.advice.pojo.Advice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,6 +53,17 @@ public class AdviceController {
     }
 
     /**
+     * 分页+多条件查询
+     * @param page 页码
+     * @param size 页大小
+     * @return 分页结果
+     */
+    @PostMapping("/search/{page}/{size}")
+    public Result findSearch(@PathVariable int page, @PathVariable int size){
+        Page<Advice> pageList = adviceService.findSearch(page, size);
+        return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Advice>(pageList.getTotalElements(), pageList.getContent()) );
+    }
+    /**
      * 添加
      * 必须有user用户登录才能吐糟建议
      * @param advice
@@ -88,12 +101,12 @@ public class AdviceController {
     }
 
     /**
-     * 根据上级ID(parentid)查询吐槽数据(分页)
+     * 根据上级ID(parentid)查询吐槽数据
      */
     @GetMapping("/comment/{parentId}/{page}/{size}")
     public Result findByParentId(@PathVariable String parentId,@PathVariable int page,@PathVariable int size){
-        Page<Advice> list = adviceService.findByParentId(parentId,page,size);
-        return new Result(true,StatusCode.OK,"查询成功",new PageResult<>(list.getTotalElements(),list.getContent()));
+        Page<Advice> commentlist = adviceService.findByParentId(parentId,page,size);
+        return new Result(true,StatusCode.OK,"查询成功",new PageResult<>(commentlist.getTotalElements(),commentlist.getContent()));
     }
 
 
@@ -101,7 +114,7 @@ public class AdviceController {
      * 建议投诉有用（点赞）,并且不能重复点赞
      * @param adviceid
      */
-    @PutMapping("/thumbUp/{adviceid}")
+    @PutMapping("/thumbup/{adviceid}")
     public Result thumbUp(@PathVariable String adviceid){
 
         String userid = "1";
