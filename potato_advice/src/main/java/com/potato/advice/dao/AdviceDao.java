@@ -11,4 +11,9 @@ public interface AdviceDao extends MongoRepository<Advice,String>{
      * 根据上级ID查询建议评论
      */
     public Page<Advice> findByParentidOrderByPublishtime(String parentid, Pageable pageable); //Pageable分页
+
+    /**
+     * 建议首页的查询
+     */
+    public Page<Advice> findByStateAndParentidOrderByPublishtime(String state ,String parentid, Pageable pageable); //Pageable分页
 }

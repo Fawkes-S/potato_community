@@ -5,11 +5,13 @@ import com.potato.advice.service.AdviceService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import com.potato.advice.pojo.Advice;
+import util.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class AdviceController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 查询所有
@@ -59,8 +64,8 @@ public class AdviceController {
      * @return 分页结果
      */
     @PostMapping("/search/{page}/{size}")
-    public Result findSearch(@PathVariable int page, @PathVariable int size){
-        Page<Advice> pageList = adviceService.findSearch(page, size);
+    public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
+        Page<Advice> pageList = adviceService.findSearch(searchMap, page, size);
         return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Advice>(pageList.getTotalElements(), pageList.getContent()) );
     }
     /**
@@ -117,7 +122,13 @@ public class AdviceController {
     @PutMapping("/thumbup/{adviceid}")
     public Result thumbUp(@PathVariable String adviceid){
 
-        String userid = "1";
+        String token = (String) request.getAttribute("claims_user");
+        if(token==null||"".equals(token)){
+            return new Result(false,StatusCode.ACCESS_ERROR,"未登录用户，请先登录！");
+        }
+        String userid = jwtUtil.parseJWT(token).getId();
+
+        //String userid = "1";
         //从redis查询用户是否已经点赞过
         String flag = (String) redisTemplate.opsForValue().get("advice_"+userid+"_"+adviceid);
         if(flag != null){

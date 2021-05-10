@@ -135,7 +135,7 @@ public class UserService {
      */
     public void deleteById(String id) {
         String token = (String) request.getAttribute("claims_admin");
-        if(StringUtils.isEmpty(token)){
+        if(token==null||"".equals(token)){
             throw new RuntimeException("权限不足！");
         }
         userDao.deleteById(id);

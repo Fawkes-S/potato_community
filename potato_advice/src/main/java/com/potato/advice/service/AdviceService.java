@@ -56,9 +56,15 @@ public class AdviceService {
      * @param size
      * @return
      */
-    public Page<Advice> findSearch(int page, int size) {
+    public Page<Advice> findSearch(Map whereMap, int page, int size) {
         PageRequest pageRequest =  PageRequest.of(page-1, size);
-        return adviceDao.findAll(pageRequest);
+        String state = (String) whereMap.get("state");
+        String parentid = (String) whereMap.get("parentid");
+        System.out.println("%"+state+"^^^^"+parentid);
+//        if(state.equals("1")&&parentid.equals("")){
+           return adviceDao.findByStateAndParentidOrderByPublishtime(state,parentid,pageRequest);
+//        }else {
+//            return adviceDao.findAll(pageRequest);}
     }
 
     /**
