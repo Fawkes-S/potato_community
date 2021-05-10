@@ -141,7 +141,11 @@ public class UserController {
             return new Result(false,StatusCode.ERROR,"用户名或者密码错误");
         }
         String token = jwtUtil.createJWT(user.getId(),user.getMobile(),"user");
-        return new Result(true,StatusCode.OK,"登录成功",token);
+        Map<String,String> result = new HashMap<>();
+        result.put("token",token);
+        result.put("name",user.getNickname());
+        result.put("avatar",user.getAvatar());
+        return new Result(true,StatusCode.OK,"登录成功",result);
     }
 
     /**
