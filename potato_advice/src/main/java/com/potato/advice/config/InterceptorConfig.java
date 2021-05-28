@@ -19,7 +19,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         //声明拦截器的对象和要拦截的要求
         registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/advice/search/**")
                 .excludePathPatterns("/**/login/**");//排队登录请求
     }
 }

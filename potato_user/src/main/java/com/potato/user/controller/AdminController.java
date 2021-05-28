@@ -108,6 +108,27 @@ public class AdminController {
     }
 
     /**
+     * 登出
+     * @return
+     */
+    @PostMapping("/logout")
+    public Result loginOut(){
+        return new Result(true,StatusCode.OK,"登出成功");
+    }
+
+    /**
+     * 获取信息
+     * @return
+     */
+    @GetMapping("/info")
+    public Result getInfo(String token) {
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("roles", "admin");
+        map.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        map.put("name", "Super Admin");
+        return new Result(true,StatusCode.OK,"成功得到信息",map);
+    }
+    /**
      * 管理员登录
      */
     @PostMapping("/login")
@@ -118,16 +139,16 @@ public class AdminController {
         if(admin!=null){
             //登录成功
             //生成Token,并给前端签发Token
-            String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
+            String token = jwtUtil.createJWT(admin.getId(), admin.getUsername(), "admin");
             //把token返回给前端
             Map<String,String> result = new HashMap<>();
-            result.put("name",admin.getLoginname());
+            result.put("name",admin.getUsername());
             result.put("role","admin");
             result.put("token",token);
 
-            return new Result(true,StatusCode.OK,"登录成功",result);
+            return new Result(true,StatusCode.OK,"admin登录成功",result);
         }else {
-            return new Result(false,StatusCode.ERROR,"用户名或者密码错误");
+            return new Result(false,StatusCode.ERROR,"用户名或者密码错误!");
         }
     }
 }

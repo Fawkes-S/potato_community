@@ -41,6 +41,9 @@ public class MessageService {
     @Autowired
     private IdWorker idWorker;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     /**
      * 查询全部列表
@@ -52,31 +55,38 @@ public class MessageService {
 
 
     /**
-     * 条件查询+分页
+     * 查询分页(state,type)
      * @param whereMap
      * @param page
      * @param size
      * @return
      */
     public Page<Message> findSearch(Map whereMap, int page, int size) {
+        PageRequest pageRequest =  PageRequest.of(page-1, size);
+        System.out.println(whereMap);
+        String state = (String) whereMap.get("state");
+        String type = (String) whereMap.get("type");
+        if(state.equals("")&&type.equals("")){
+            throw new RuntimeException("state and type are null");
+        }
+
+        return messageDao.findByStateAndTypeOrderByCreatetime(state,type,pageRequest);
+
+
+    }
+
+
+    /**
+     * 动态条件分页查询
+     * @param whereMap
+     * @return
+     */
+    public Page<Message> backSearch(Map whereMap, int page, int size) {
         Specification<Message> specification = createSpecification(whereMap);
         PageRequest pageRequest =  PageRequest.of(page-1, size);
         return messageDao.findAll(specification, pageRequest);
     }
 
-
-    /**
-     * 条件查询
-     * @param whereMap
-     * @return
-     */
-    public List<Message> findSearch(Map whereMap) {
-        Specification<Message> specification = createSpecification(whereMap);
-        return messageDao.findAll(specification);
-    }
-
-    @Autowired
-    private RedisTemplate redisTemplate;
     /**
      * 根据ID查询实体
      * @param id
@@ -151,29 +161,21 @@ public class MessageService {
                 if (searchMap.get("content")!=null && !"".equals(searchMap.get("content"))) {
                     predicateList.add(cb.like(root.get("content").as(String.class), "%"+(String)searchMap.get("content")+"%"));
                 }
-                // 资讯封面
-                if (searchMap.get("image")!=null && !"".equals(searchMap.get("image"))) {
-                    predicateList.add(cb.like(root.get("image").as(String.class), "%"+(String)searchMap.get("image")+"%"));
-                }
-                // 是否公开
-                if (searchMap.get("ispublic")!=null && !"".equals(searchMap.get("ispublic"))) {
-                    predicateList.add(cb.like(root.get("ispublic").as(String.class), "%"+(String)searchMap.get("ispublic")+"%"));
-                }
-                // 是否置顶
-                if (searchMap.get("istop")!=null && !"".equals(searchMap.get("istop"))) {
-                    predicateList.add(cb.like(root.get("istop").as(String.class), "%"+(String)searchMap.get("istop")+"%"));
-                }
-                // 审核状态
+                // 状态
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                     predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
-                }
-                // URL
-                if (searchMap.get("url")!=null && !"".equals(searchMap.get("url"))) {
-                    predicateList.add(cb.like(root.get("url").as(String.class), "%"+(String)searchMap.get("url")+"%"));
                 }
                 // 类型
                 if (searchMap.get("type")!=null && !"".equals(searchMap.get("type"))) {
                     predicateList.add(cb.like(root.get("type").as(String.class), "%"+(String)searchMap.get("type")+"%"));
+                }
+                // 发表日期之后
+                if (searchMap.get("createtime")!=null && !"".equals(searchMap.get("createtime"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("createtime").as(String.class), (String)searchMap.get("createtime")));
+                }
+                // 修改时间之后
+                if (searchMap.get("updatetime")!=null && !"".equals(searchMap.get("updatetime"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("updatetime").as(String.class), (String)searchMap.get("updatetime")));
                 }
 
                 return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
@@ -192,13 +194,13 @@ public class MessageService {
         messageDao.examine(id);
     }
 
-    /**
-     * 点赞
-     * @param id
-     */
-    @Transactional
-    public void thumbUp(String id) {
-        messageDao.thumbUp(id);
-    }
+//    /**
+//     * 点赞
+//     * @param id
+//     */
+//    @Transactional
+//    public void thumbUp(String id) {
+//        messageDao.thumbUp(id);
+//    }
 }
 

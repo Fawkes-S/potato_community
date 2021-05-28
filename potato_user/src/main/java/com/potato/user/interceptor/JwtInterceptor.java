@@ -25,18 +25,21 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if(header!=null && !"".equals(header)){
 
-            if(header.startsWith("Bearer ")){
+            if(header.startsWith("Bearer")){
                 String token = header.substring(7);
                 //对令牌认证
                 try {
                     Claims claims = jwtUtil.parseJWT(token);
                     String roles = (String)claims.get("roles");
-                    if(roles!=null&&roles.equals("admin")) {
-                        request.setAttribute("claims_admin",token);
+                    if(roles!=null){
+                        if(roles.equals("admin")) {
+                            request.setAttribute("claims_admin",token);
+                        }
+                        if(roles.equals("user")) {
+                            request.setAttribute("claims_user",token);
+                        }
                     }
-                    if(roles!=null&&roles.equals("user")) {
-                        request.setAttribute("claims_user",token);
-                    }
+
                 }catch(Exception e){
                         throw new RuntimeException("token不正确！");
                     }

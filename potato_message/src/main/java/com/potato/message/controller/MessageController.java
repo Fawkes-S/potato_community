@@ -56,17 +56,20 @@ public class MessageController {
     @PostMapping("/search/{page}/{size}")
     public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
         Page<Message> pageList = messageService.findSearch(searchMap, page, size);
-        return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Message>(pageList.getTotalElements(), pageList.getContent()) );
+        return  new Result(true,StatusCode.OK,"资讯查询成功",  new PageResult<Message>(pageList.getTotalElements(), pageList.getContent()) );
     }
 
     /**
-     * 根据条件查询
+     * 动态条件查询
      * @param searchMap
+     * @param page 页码
+     * @param size 页大小
      * @return
      */
-    @PostMapping("/search")
-    public Result findSearch( @RequestBody Map searchMap){
-        return new Result(true,StatusCode.OK,"查询成功",messageService.findSearch(searchMap));
+    @PostMapping("/search/back/{page}/{size}")
+    public Result backSearch( @RequestBody Map searchMap, @PathVariable int page, @PathVariable int size){
+        Page<Message> pageList = messageService.backSearch(searchMap, page, size);
+        return new Result(true,StatusCode.OK,"后台页面查询成功", new PageResult<Message>(pageList.getTotalElements(), pageList.getContent()) );
     }
 
     /**
@@ -100,22 +103,7 @@ public class MessageController {
         return new Result(true,StatusCode.OK,"删除成功");
     }
 
-    /**
-     * 审核
-     */
-    @PutMapping("/examine/{messageid}")
-    public Result examine(@PathVariable String messageid){
-        messageService.examine(messageid);
-        return new Result(true,StatusCode.OK,"审核成功");
-    }
 
-    /**
-     * 点赞
-     */
-    @PutMapping("/thumbUp/{messageid}")
-    public Result thumbUp(@PathVariable String messageid){
-        messageService.thumbUp(messageid);
-        return new Result(true,StatusCode.OK,"点赞成功");
-    }
+
 
 }

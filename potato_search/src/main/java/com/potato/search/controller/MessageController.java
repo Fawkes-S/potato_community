@@ -9,6 +9,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
 /**
  * 控制器层
  * @author Administrator
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/message")
+@RequestMapping("/search")
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -33,10 +36,10 @@ public class MessageController {
     /**
      * 搜索资讯
      */
-    @GetMapping("/search/{keywords}/{page}/{size}")
-    public Result findSearch(@PathVariable String keywords,@PathVariable int page,@PathVariable int size){
+    @PostMapping("/message/{page}/{size}")
+    public Result findSearch(@RequestBody Map<String,String> keywords, @PathVariable int page, @PathVariable int size){
 
-        Page<Message> list = messageService.findSearch(keywords,page,size);
+        Page<Message> list = messageService.findSearch(keywords.get("keywords"),page,size);
 
         if(CollectionUtils.isEmpty(list.getContent())){
             return new Result(false,StatusCode.ERROR,"查询失败，库中无搜索内容");

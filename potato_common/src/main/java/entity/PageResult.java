@@ -29,4 +29,7 @@ public class PageResult<T> implements Serializable{
     public void setRows(List<T> rows) {
         this.rows = rows;
     }
+
+    public PageResult() {
+    }
 }

@@ -131,8 +131,8 @@ public class AdminService {
                     predicateList.add(cb.like(root.get("id").as(String.class), "%"+(String)searchMap.get("id")+"%"));
                 }
                 // 登陆名称
-                if (searchMap.get("loginname")!=null && !"".equals(searchMap.get("loginname"))) {
-                    predicateList.add(cb.like(root.get("loginname").as(String.class), "%"+(String)searchMap.get("loginname")+"%"));
+                if (searchMap.get("username")!=null && !"".equals(searchMap.get("username"))) {
+                    predicateList.add(cb.like(root.get("username").as(String.class), "%"+(String)searchMap.get("username")+"%"));
                 }
                 // 密码
                 if (searchMap.get("password")!=null && !"".equals(searchMap.get("password"))) {
@@ -158,7 +158,7 @@ public class AdminService {
     public Admin login(Map<String, String> map) {
 
         //1.判断账户是否存在
-        Admin admin = adminDao.findByLoginname(map.get("loginname"));
+        Admin admin = adminDao.findByUsername(map.get("username"));
 
         //2.判断密码是否正确
         if(admin!=null && cryptPasswordEncoder.matches(map.get("password"),admin.getPassword()) ){

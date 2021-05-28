@@ -2,7 +2,7 @@ server:
   port: 9008
 spring:
   application:
-    name: potato_search
+    name: potato-search
   data:
     elasticsearch:
       cluster-nodes: 192.168.11.132:9300

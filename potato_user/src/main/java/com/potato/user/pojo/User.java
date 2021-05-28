@@ -1,5 +1,7 @@
 package com.potato.user.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,15 +25,23 @@ public class User implements Serializable{
     private String password;//密码
     private String nickname;//昵称
     private String sex;//性别
-    private Date birthday;//出生年月日
-    private String avatar;//头像
-    private String email;//E-Mail
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
+    private Date birthday;//出生日期
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private java.util.Date regdate;//注册日期
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private java.util.Date updatedate;//修改日期
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private java.util.Date lastdate;//最后登陆日期
-    private String interest;//兴趣
-
-
+    private Float water;//水费
+    private Float electric;//电费
+    private Float network;//网费
+    private Float property;//物业费
+    private String aid;//发给管家的消息
+    private String isdispose;//管家是否处理
+    private String gatheringid;//参加的活动id
 
     public String getId() {
         return id;
@@ -75,20 +85,6 @@ public class User implements Serializable{
         this.birthday = birthday;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public java.util.Date getRegdate() {
         return regdate;
     }
@@ -110,13 +106,62 @@ public class User implements Serializable{
         this.lastdate = lastdate;
     }
 
-    public String getInterest() {
-        return interest;
-    }
-    public void setInterest(String interest) {
-        this.interest = interest;
+    public Float getWater() {
+        return water;
     }
 
+    public void setWater(Float water) {
+        this.water = water;
+    }
 
+    public Float getElectric() {
+        return electric;
+    }
 
+    public void setElectric(Float electric) {
+        this.electric = electric;
+    }
+
+    public Float getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(Float network) {
+        this.network = network;
+    }
+
+    public Float getProperty() {
+        return property;
+    }
+
+    public void setProperty(Float property) {
+        this.property = property;
+    }
+
+    public String getAid() {
+        return aid;
+    }
+
+    public void setAid(String aid) {
+        this.aid = aid;
+    }
+
+    public String getIsdispose() {
+        return isdispose;
+    }
+
+    public void setIsdispose(String isdispose) {
+        this.isdispose = isdispose;
+    }
+
+    public String getGatheringid() {
+        return gatheringid;
+    }
+
+    public void setGatheringid(String gatheringid) {
+        this.gatheringid = gatheringid;
+    }
+
+    public User() {
+    }
 }

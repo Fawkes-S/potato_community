@@ -19,7 +19,7 @@ spring:
 jwt:
   config:
     key: potato
-    ttl: 360000
+    ttl: 7200000
 eureka:
   client:
     serviceUrl:

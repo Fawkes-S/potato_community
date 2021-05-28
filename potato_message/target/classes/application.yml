@@ -5,7 +5,7 @@ spring:
     name: potato-message
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.11.129:3306/potato_message?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.11.132:3306/potato_message?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: 123456
   jpa:
@@ -13,10 +13,10 @@ spring:
     show‐sql: true
     generate‐ddl: true
   redis:
-    host: 192.168.11.129
+    host: 192.168.11.132
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:6868/eureka/
+      defaultZone: http://192.168.11.132:6868/eureka/
   instance:
     prefer-ip-address: true    # 确保模块之间能够跨域访问

@@ -17,7 +17,7 @@ public class Admin implements Serializable{
 
 
 
-    private String loginname;//登陆名称
+    private String username;//登陆名称
     private String password;//密码
     private String state;//状态
 
@@ -29,11 +29,12 @@ public class Admin implements Serializable{
         this.id = id;
     }
 
-    public String getLoginname() {
-        return loginname;
+    public String getUsername() {
+        return username;
     }
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

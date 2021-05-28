@@ -61,6 +61,8 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public Result findById(@PathVariable String id){
+        System.out.println("id:"+id);
+        System.out.println(userService.findById(id));
         return new Result(true,StatusCode.OK,"查询成功",userService.findById(id));
     }
 
@@ -145,11 +147,12 @@ public class UserController {
         result.put("token",token);
         result.put("name",user.getNickname());
         result.put("avatar",user.getAvatar());
+        result.put("id",user.getId());
         return new Result(true,StatusCode.OK,"登录成功",result);
     }
 
     /**
-     * 删除 必须有admin角色才能删除
+     * 删除
      * @param id
      * @return
      */
@@ -158,4 +161,75 @@ public class UserController {
         userService.deleteById(id);
         return new Result(true,StatusCode.OK,"删除成功");
     }
+
+
+    /**
+     * 根据ID查询缴费
+     * @param id ID
+     * @return
+     */
+    @GetMapping("/pay/{id}")
+    public Result findPayById(@PathVariable String id){
+        User user = userService.findById(id);
+        Map<String,Float> map = new HashMap<>();
+        map.put("water",user.getWater());
+        map.put("electric",user.getElectric());
+        map.put("network",user.getNetwork());
+        map.put("property",user.getProperty());
+        return new Result(true,StatusCode.OK,"成功查询缴费情况",map);
+    }
+
+    /**
+     * 缴费
+     * @param id
+     */
+    @PutMapping("/pay/{id}")
+    public Result pay(@PathVariable String id ){
+        User user = userService.findById(id);
+        user.setWater((float) 0);
+        user.setElectric((float)0);
+        user.setNetwork((float)0);
+        user.setProperty((float)0);
+        userService.update(user);
+        return new Result(true,StatusCode.OK,"缴费成功");
+    }
+
+    /**
+     * 报名参加活动的id
+     * @param map
+     * @return
+     */
+    @PostMapping("/addGathering")
+    public Result addGathering(@RequestBody Map<String,String> map){
+        userService.addGathering(map.get("gatheringid"),map.get("id"));
+        return new Result(true,StatusCode.OK,"报名成功");
+    }
+
+    /**
+     * 向管家发送消息
+     * @param map
+     * @return
+     */
+    @PostMapping("/aid")
+    public Result aid(@RequestBody Map<String,String> map){
+        System.out.println(map);
+        User user = userService.findById(map.get("id"));
+        user.setAid(map.get("aid"));
+        userService.update(user);
+        return new Result(true,StatusCode.OK,"成功发送给专属管家消息");
+    }
+
+    /**
+     * 管家(admin)处理住户的消息
+     * @param id
+     * @return
+     */
+    @GetMapping("/aid/steward/{id}")
+    public Result isDispose(@PathVariable String id){
+        User user = userService.findById(id);
+        user.setIsdispose("1");
+        userService.update(user);
+        return new Result(true,StatusCode.OK,"已成功处理住户消息");
+    }
+
 }

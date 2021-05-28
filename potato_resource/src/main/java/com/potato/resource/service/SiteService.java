@@ -150,9 +150,9 @@ public class SiteService {
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                     predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
                 }
-                // 网址
-                if (searchMap.get("url")!=null && !"".equals(searchMap.get("url"))) {
-                    predicateList.add(cb.like(root.get("url").as(String.class), "%"+(String)searchMap.get("url")+"%"));
+                // 开始时间之后
+                if (searchMap.get("createtime")!=null && !"".equals(searchMap.get("createtime"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("createtime").as(String.class), (String)searchMap.get("createtime")));
                 }
 
 
@@ -175,19 +175,19 @@ public class SiteService {
          *  OrderByCreateTimeDesc: 按照倒序查询createTime
          */
 
-        List<Site> list = siteDao.findTop4ByStateOrderByCreatetimeDesc("2");
+        List<Site> list = siteDao.findTop4ByStateOrderByCreatetimeDesc("1");
         return list;
     }
 
     /**
-     * 最新职位
+     * 最新场地
      * @return
      */
     public List<Site> newList() {
 
         /**
          * Top12: 取前面10条件
-         * ByStateNot: 查询state不为xx的值
+         * ByStateNot: 查询state不为0的值
          * OrderByCreateTimeDesc: 按照倒序查询createTime
          */
         List<Site> list = siteDao.findTop10ByStateNotOrderByCreatetimeDesc("0");

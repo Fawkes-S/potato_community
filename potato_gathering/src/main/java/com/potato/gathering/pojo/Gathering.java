@@ -1,5 +1,7 @@
 package com.potato.gathering.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,14 +23,21 @@ public class Gathering implements Serializable{
 
 
     private String name;//活动名称
-    private String summary;//大会简介
-    private String detail;//详细说明
+    private String summary;//活动简介
+    private String detail;//详细内容
     private String sponsor;//主办方
     private String image;//活动图片
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date starttime;//开始时间
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date endtime;//截止时间
+
     private String address;//举办地点
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date enrolltime;//报名截止
+
     private String state;//是否可见
 
     public String getId() {
@@ -119,4 +128,6 @@ public class Gathering implements Serializable{
         this.state = state;
     }
 
+    public Gathering() {
+    }
 }

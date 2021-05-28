@@ -1,5 +1,7 @@
 package com.potato.resource.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,9 +26,10 @@ public class Site implements Serializable{
     private String content;
     private String telename;
     private String tele;
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date createtime;
     private String state;
-    private String url;
 
 
     public String getId() {
@@ -101,13 +104,6 @@ public class Site implements Serializable{
         this.state = state;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
 
 }

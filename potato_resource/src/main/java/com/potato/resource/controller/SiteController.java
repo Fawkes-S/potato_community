@@ -108,7 +108,7 @@ public class SiteController {
     @GetMapping("/search/recommend")
     public Result recommend(){
         List<Site> list = siteService.recommend();
-        return new Result(true,StatusCode.OK,"查询成功",list);
+        return new Result(true,StatusCode.OK,"推荐场地查询成功",list);
     }
 
     /**
@@ -117,7 +117,7 @@ public class SiteController {
     @GetMapping("/search/newList")
     public Result newList(){
         List<Site> list = siteService.newList();
-        return new Result(true,StatusCode.OK,"查询成功",list);
+        return new Result(true,StatusCode.OK,"最新场地查询成功",list);
     }
 
 }

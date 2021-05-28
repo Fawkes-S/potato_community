@@ -101,7 +101,28 @@ public class UserService {
      * @return
      */
     public User findById(String id) {
+        System.out.println("serviceID:"+id);
         return userDao.findById(id).get();
+    }
+
+    /**
+     * 报名活动
+     * @param gatheringid
+     * @param id
+     * @return
+     */
+    public void addGathering(String gatheringid, String id) {
+        User user  = userDao.findById(id).get();
+        String gid = null;
+        if(user.getGatheringid()==null||(user.getGatheringid()).equals("")){
+            gid = gatheringid;
+            user.setGatheringid(gid);
+            userDao.save(user);
+        }else {
+            gid = ",".concat(gatheringid);
+            userDao.addGathering(gid,id);
+        }
+
     }
 
     /**
@@ -120,6 +141,7 @@ public class UserService {
         userDao.save(user);
     }
 
+
     /**
      * 修改
      * @param user
@@ -129,15 +151,11 @@ public class UserService {
     }
 
     /**
-     * 必须admin才能删除
+     *
      * 删除
      * @param id
      */
     public void deleteById(String id) {
-        String token = (String) request.getAttribute("claims_admin");
-        if(token==null||"".equals(token)){
-            throw new RuntimeException("权限不足！");
-        }
         userDao.deleteById(id);
     }
 
@@ -178,11 +196,11 @@ public class UserService {
                 }
                 // 手机号
                 if (searchMap.get("mobile")!=null && !"".equals(searchMap.get("mobile"))) {
-                    predicateList.add(cb.like(root.get("mobile").as(String.class), "%"+(String)searchMap.get("mobile")+"%"));
+                    predicateList.add(cb.equal(root.get("mobile").as(String.class), (String)searchMap.get("mobile")));
                 }
-                // 密码
-                if (searchMap.get("password")!=null && !"".equals(searchMap.get("password"))) {
-                    predicateList.add(cb.like(root.get("password").as(String.class), "%"+(String)searchMap.get("password")+"%"));
+                // 手机号模糊查询
+                if (searchMap.get("mob")!=null && !"".equals(searchMap.get("mob"))) {
+                    predicateList.add(cb.like(root.get("mobile").as(String.class), "%"+(String)searchMap.get("mob")+"%"));
                 }
                 // 昵称
                 if (searchMap.get("nickname")!=null && !"".equals(searchMap.get("nickname"))) {
@@ -192,18 +210,43 @@ public class UserService {
                 if (searchMap.get("sex")!=null && !"".equals(searchMap.get("sex"))) {
                     predicateList.add(cb.like(root.get("sex").as(String.class), "%"+(String)searchMap.get("sex")+"%"));
                 }
-                // 头像
-                if (searchMap.get("avatar")!=null && !"".equals(searchMap.get("avatar"))) {
-                    predicateList.add(cb.like(root.get("avatar").as(String.class), "%"+(String)searchMap.get("avatar")+"%"));
+                // 出生日期之后
+                if (searchMap.get("birthday")!=null && !"".equals(searchMap.get("birthday"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("birthday").as(String.class), (String)searchMap.get("birthday")));
                 }
-                // E-Mail
-                if (searchMap.get("email")!=null && !"".equals(searchMap.get("email"))) {
-                    predicateList.add(cb.like(root.get("email").as(String.class), "%"+(String)searchMap.get("email")+"%"));
+                // 注册日期之后
+                if (searchMap.get("regdate")!=null && !"".equals(searchMap.get("regdate"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("regdate").as(String.class), (String)searchMap.get("regdate")));
                 }
-                // 兴趣
-                if (searchMap.get("interest")!=null && !"".equals(searchMap.get("interest"))) {
-                    predicateList.add(cb.like(root.get("interest").as(String.class), "%"+(String)searchMap.get("interest")+"%"));
+                // 修改日期之后
+                if (searchMap.get("updatedate")!=null && !"".equals(searchMap.get("updatedate"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("updatedate").as(String.class), (String)searchMap.get("updatedate")));
                 }
+                // 水费不为空
+                if (searchMap.get("water")!=null && !"".equals(searchMap.get("water"))) {
+                    predicateList.add(cb.notEqual(root.get("water").as(String.class),0));
+                }
+                // 电费不为空
+                if (searchMap.get("electric")!=null && !"".equals(searchMap.get("electric"))) {
+                    predicateList.add(cb.notEqual(root.get("electric").as(String.class),0));
+                }
+                // 网费不为空
+                if (searchMap.get("network")!=null && !"".equals(searchMap.get("network"))) {
+                    predicateList.add(cb.notEqual(root.get("network").as(String.class),0));
+                }
+                // 物业费不为空
+                if (searchMap.get("property")!=null && !"".equals(searchMap.get("property"))) {
+                    predicateList.add(cb.notEqual(root.get("property").as(String.class),0));
+                }
+                //isdispose已处理
+                if (searchMap.get("isdispose")!=null && !"".equals(searchMap.get("isdispose"))) {
+                    predicateList.add(cb.equal(root.get("isdispose").as(String.class), (String)searchMap.get("isdispose")));
+                }
+                // aid不为空
+                if (searchMap.get("aid")!=null && !"".equals(searchMap.get("aid"))) {
+                    predicateList.add(cb.notEqual(root.get("aid").as(String.class), ""));
+                }
+
 
                 return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 
@@ -211,6 +254,7 @@ public class UserService {
         };
 
     }
+
 
 
 }

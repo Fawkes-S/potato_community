@@ -1,5 +1,9 @@
 package com.potato.advice.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.potato.advice.client.UserClient;
 import com.potato.advice.pojo.Advice;
 import com.potato.advice.service.AdviceService;
 import entity.PageResult;
@@ -39,6 +43,9 @@ public class AdviceController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private UserClient userClient;
+
     /**
      * 查询所有
      */
@@ -66,16 +73,42 @@ public class AdviceController {
     @PostMapping("/search/{page}/{size}")
     public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
         Page<Advice> pageList = adviceService.findSearch(searchMap, page, size);
-        return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Advice>(pageList.getTotalElements(), pageList.getContent()) );
+        return  new Result(true,StatusCode.OK,"分页查询成功",  new PageResult<Advice>(pageList.getTotalElements(), pageList.getContent()) );
     }
+
     /**
+     * 动态条件查询
+     * @param searchMap
+     * @param page 页码
+     * @param size 页大小
+     * @return
+     */
+    @PostMapping("/search/back/{page}/{size}")
+    public Result backSearch( @RequestBody Map searchMap, @PathVariable int page, @PathVariable int size){
+        Page<Advice> pageList = adviceService.backSearch(searchMap, page, size);
+        return new Result(true,StatusCode.OK,"后台页面查询成功", new PageResult<Advice>(pageList.getTotalElements(), pageList.getContent()) );
+    }
+
+    /**
+     * △Feign
      * 添加
      * 必须有user用户登录才能吐糟建议
-     * @param advice
+     * @param map
      */
     @PostMapping
-    public Result add(@RequestBody Advice advice){
-        String token = (String) request.getAttribute("claims_user");
+    public Result add(@RequestBody Map<String,String> map){
+        String header = request.getHeader("Authorization");
+        String token = header.substring(7);
+        String userid = jwtUtil.parseJWT(token).getId();
+        //Feign调用potato_user的findById()
+        Result result = userClient.findById(userid);
+        JSONObject jo = JSONObject.parseObject(JSONObject.toJSONString(result));
+        String nickname = jo.getJSONObject("data").getString("nickname");
+        Advice advice =new Advice();
+        advice.setParentid(map.get("parentid"));
+        advice.setContent(map.get("content"));
+        advice.setNickname(nickname);
+        advice.setUserId(userid);
         if(token==null||"".equals(token)){
             return new Result(false,StatusCode.ACCESS_ERROR,"未登录用户，请先登录！");
         }
@@ -121,14 +154,13 @@ public class AdviceController {
      */
     @PutMapping("/thumbup/{adviceid}")
     public Result thumbUp(@PathVariable String adviceid){
-
-        String token = (String) request.getAttribute("claims_user");
+        String header = request.getHeader("Authorization");
+        String token = header.substring(7);
         if(token==null||"".equals(token)){
             return new Result(false,StatusCode.ACCESS_ERROR,"未登录用户，请先登录！");
         }
         String userid = jwtUtil.parseJWT(token).getId();
-
-        //String userid = "1";
+        System.out.println("userid:"+userid);
         //从redis查询用户是否已经点赞过
         String flag = (String) redisTemplate.opsForValue().get("advice_"+userid+"_"+adviceid);
         if(flag != null){

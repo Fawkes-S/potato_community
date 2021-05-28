@@ -1,5 +1,7 @@
 package com.potato.message.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,16 +26,11 @@ public class Message implements Serializable{
     private String userid;//用户ID
     private String title;//标题
     private String content;//资讯正文
-    private String image;//资讯封面
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private java.util.Date createtime;//发表日期
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private java.util.Date updatetime;//修改日期
-    private String ispublic;//是否公开
-    private String istop;//是否置顶
-    private Integer visits;//浏览量
-    private Integer thumbup;//点赞数
-    private Integer comment;//评论数
-    private String state;//审核状态
-    private String url;//URL
+    private String state;//状态
     private String type;//类型
 
 
@@ -70,14 +67,6 @@ public class Message implements Serializable{
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Date getCreatetime() {
         return createtime;
     }
@@ -92,62 +81,6 @@ public class Message implements Serializable{
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
-    }
-
-    public String getIspublic() {
-        return ispublic;
-    }
-
-    public void setIspublic(String ispublic) {
-        this.ispublic = ispublic;
-    }
-
-    public String getIstop() {
-        return istop;
-    }
-
-    public void setIstop(String istop) {
-        this.istop = istop;
-    }
-
-    public Integer getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Integer visits) {
-        this.visits = visits;
-    }
-
-    public Integer getThumbup() {
-        return thumbup;
-    }
-
-    public void setThumbup(Integer thumbup) {
-        this.thumbup = thumbup;
-    }
-
-    public Integer getComment() {
-        return comment;
-    }
-
-    public void setComment(Integer comment) {
-        this.comment = comment;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getType() {

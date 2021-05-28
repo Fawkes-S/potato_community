@@ -13,8 +13,8 @@ public interface AdminDao extends JpaRepository<Admin,String>,JpaSpecificationEx
 
     /**
      * 根据loginname查询管理员
-     * @param loginname
+     * @param username
      * @return
      */
-    public Admin findByLoginname(String loginname);
+    public Admin findByUsername(String username);
 }

@@ -3,6 +3,8 @@ package com.potato.gathering.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
+import com.potato.gathering.client.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class GatheringController {
     @Autowired
     private GatheringService gatheringService;
 
+    @Autowired
+    private UserClient userClient;
 
     /**
      * 查询全部数据
@@ -60,14 +64,31 @@ public class GatheringController {
         return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Gathering>(pageList.getTotalElements(), pageList.getContent()) );
     }
 
+//    /**
+//     * 分页+多条件查询(个人中心)
+//     * @param searchMap 查询条件封装
+//     * @param page 页码
+//     * @param size 页大小
+//     * @return 分页结果
+//     */
+//    @PostMapping("/searchM)
+//    public Result findSearchManger(@RequestBody Map searchMap){
+//        Page<Gathering> pageList = gatheringService.findSearchManger(searchMap, page, size);
+//        return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Gathering>(pageList.getTotalElements(), pageList.getContent()) );
+//    }
+
     /**
-     * 根据条件查询
+     * 根据条件查询(个人中心)
      * @param searchMap
      * @return
      */
     @PostMapping("/search")
     public Result findSearch( @RequestBody Map searchMap){
-        return new Result(true,StatusCode.OK,"查询成功",gatheringService.findSearch(searchMap));
+        Result result = userClient.findById(searchMap.get("id").toString());
+        JSONObject jo = JSONObject.parseObject(JSONObject.toJSONString(result));
+        String gatheringid = jo.getJSONObject("data").getString("gatheringid");
+        searchMap.put("id",gatheringid);
+        return new Result(true,StatusCode.OK,"查询成功",gatheringService.findSearchM(searchMap));
     }
 
     /**
@@ -101,4 +122,24 @@ public class GatheringController {
         return new Result(true,StatusCode.OK,"删除成功");
     }
 
+    /**
+     * Feign调用User模块
+     * @return
+     */
+    @GetMapping("/user")
+    public Result findAllUsers(){
+        Result result = userClient.findAll();
+        return result;
+    }
+
+    /**
+     * △
+     * Feign User报名活动 添加活动id
+     * @return
+     */
+    @PostMapping("/addGathering")
+    public Result addGathering(@RequestBody Map<String,String> map){
+        Result result = userClient.addGathering(map);
+        return result;
+    }
 }

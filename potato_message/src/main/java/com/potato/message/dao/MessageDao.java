@@ -1,5 +1,7 @@
 package com.potato.message.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -22,11 +24,9 @@ public interface MessageDao extends JpaRepository<Message,String>,JpaSpecificati
     @Query("update Message m set m.state ='1' where m.id=?1")
     public void examine(String id);
 
+
     /**
-     * 点赞
-     * @param id
+     * 资讯的查询
      */
-    @Modifying
-    @Query("update Message m set m.thumbup=(m.thumbup+1) where m.id=?1")
-    public void thumbUp(String id);
+    public Page<Message> findByStateAndTypeOrderByCreatetime(String state ,String type, Pageable pageable);
 }

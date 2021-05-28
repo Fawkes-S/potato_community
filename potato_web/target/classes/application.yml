@@ -6,14 +6,14 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:6868/eureka/
+      defaultZone: http://192.168.11.132:6868/eureka/
   instance:
     prefer-ip-address: true    # 确保模块之间能够跨域访问
 zuul:
+  host:
+    connect-timeout-millis: 90000
+    socket-timeout-millis: 90000
   routes:
-    potato-base:
-      path: /label/**   #拦截路径
-      serviceId: potato-base  #微服务的名称
     potato-advice:
       path: /advice/**
       serviceId: potato-advice
@@ -24,15 +24,22 @@ zuul:
       path: /message/**
       serviceId: potato-message
     potato-resource:
-      path: /resource/**
+      path: /site/**
       serviceId: potato-resource
     potato-user:
       path: /user/**
       serviceId: potato-user
     potato-search:
-      path: /message/**
+      path: /search/**
       serviceId: potato-search
-#jwt:
-#  config:
-#    key: potato
-#    ttl: 3600000
+# 添加ribbon的超时时间设置
+ribbon:
+  ReadTimeout: 90000
+  ConnectTimeout: 90000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds:90000

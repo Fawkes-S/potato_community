@@ -5,20 +5,20 @@ public class Result implements Serializable{
     // 是否成功
     private Boolean flag;
     // 返回码
-    private Integer code;
+    private String code;
     // 返回信息
     private String message;
     // 返回数据
     private Object data;
 
 
-    public Result(Boolean flag, Integer code, String message) {
+    public Result(Boolean flag, String code, String message) {
         this.flag = flag;
         this.code = code;
         this.message = message;
     }
 
-    public Result(Boolean flag, Integer code, String message, Object data) {
+    public Result(Boolean flag, String code, String message, Object data) {
         this.flag = flag;
         this.code = code;
         this.message = message;
@@ -33,11 +33,11 @@ public class Result implements Serializable{
         this.flag = flag;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -55,5 +55,8 @@ public class Result implements Serializable{
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public Result() {
     }
 }

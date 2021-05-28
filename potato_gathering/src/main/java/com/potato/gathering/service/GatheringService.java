@@ -1,9 +1,6 @@
 package com.potato.gathering.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -63,15 +60,38 @@ public class GatheringService {
         return gatheringDao.findAll(specification, pageRequest);
     }
 
+//    /**
+//     * 条件查询+分页(个人中心)
+//     * @param whereMap
+//     * @param page
+//     * @param size
+//     * @return
+//     */
+//    public Page<Gathering> findSearchManger(Map whereMap, int page, int size) {
+//        String gatheringid = whereMap.get("gatheringid").toString();
+//        gatheringid.split(",");
+//        Specification<Gathering> specification = createSpecification(whereMap);
+//        PageRequest pageRequest =  PageRequest.of(page-1, size);
+//        Page<Gathering> pageList = new
+//        return gatheringDao.findAll(specification, pageRequest);
+//    }
+
 
     /**
-     * 条件查询
+     * 条件查询(个人中心)
      * @param whereMap
      * @return
      */
-    public List<Gathering> findSearch(Map whereMap) {
-        Specification<Gathering> specification = createSpecification(whereMap);
-        return gatheringDao.findAll(specification);
+    public List<Gathering> findSearchM(Map whereMap) {
+        String gatheringid = whereMap.get("id").toString();
+        String[] glist =gatheringid.split(",");
+        System.out.println("glist:"+ Arrays.toString(glist));
+        List<Gathering> list = new ArrayList<>();
+        for (int i = 0; i<glist.length; i++){
+            Specification<Gathering> specification = createSpecification(whereMap);
+            list.add(gatheringDao.findAll(specification).get(0));
+        }
+        return list;
     }
 
     /**
@@ -127,7 +147,7 @@ public class GatheringService {
             @Override
             public Predicate toPredicate(Root<Gathering> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicateList = new ArrayList<Predicate>();
-                // 编号
+                // id
                 if (searchMap.get("id")!=null && !"".equals(searchMap.get("id"))) {
                     predicateList.add(cb.like(root.get("id").as(String.class), "%"+(String)searchMap.get("id")+"%"));
                 }
@@ -135,21 +155,17 @@ public class GatheringService {
                 if (searchMap.get("name")!=null && !"".equals(searchMap.get("name"))) {
                     predicateList.add(cb.like(root.get("name").as(String.class), "%"+(String)searchMap.get("name")+"%"));
                 }
-                // 大会简介
+                // 活动简介
                 if (searchMap.get("summary")!=null && !"".equals(searchMap.get("summary"))) {
                     predicateList.add(cb.like(root.get("summary").as(String.class), "%"+(String)searchMap.get("summary")+"%"));
                 }
-                // 详细说明
+                // 详细内容
                 if (searchMap.get("detail")!=null && !"".equals(searchMap.get("detail"))) {
                     predicateList.add(cb.like(root.get("detail").as(String.class), "%"+(String)searchMap.get("detail")+"%"));
                 }
                 // 主办方
                 if (searchMap.get("sponsor")!=null && !"".equals(searchMap.get("sponsor"))) {
                     predicateList.add(cb.like(root.get("sponsor").as(String.class), "%"+(String)searchMap.get("sponsor")+"%"));
-                }
-                // 活动图片
-                if (searchMap.get("image")!=null && !"".equals(searchMap.get("image"))) {
-                    predicateList.add(cb.like(root.get("image").as(String.class), "%"+(String)searchMap.get("image")+"%"));
                 }
                 // 举办地点
                 if (searchMap.get("address")!=null && !"".equals(searchMap.get("address"))) {
@@ -159,7 +175,14 @@ public class GatheringService {
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                     predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
                 }
-
+                // 开始时间之后
+                if (searchMap.get("starttime")!=null && !"".equals(searchMap.get("starttime"))) {
+                    predicateList.add(cb.greaterThanOrEqualTo(root.get("starttime").as(String.class), (String)searchMap.get("starttime")));
+                }
+                // 结束时间之前
+                if (searchMap.get("endtime")!=null && !"".equals(searchMap.get("endtime"))) {
+                    predicateList.add(cb.lessThanOrEqualTo(root.get("endtime").as(String.class), (String)searchMap.get("endtime")));
+                }
 
                 return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 

@@ -7,5 +7,12 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 public interface MessageDao extends ElasticsearchRepository<Message,String>{
 
-    Page<Message> findByTitleOrContentLike(String title, String content, Pageable pageable);
+    /**
+     * 检索
+     * @param title
+     * @param content
+     * @param pageable
+     * @return
+     */
+    public Page<Message> findByTitleOrContentLike(String title, String content, Pageable pageable);
 }
