@@ -35,6 +35,7 @@ public class User implements Serializable{
     private java.util.Date updatedate;//修改日期
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private java.util.Date lastdate;//最后登陆日期
+    private String avatar;//头像
     private Float water;//水费
     private Float electric;//电费
     private Float network;//网费
@@ -152,6 +153,14 @@ public class User implements Serializable{
 
     public void setIsdispose(String isdispose) {
         this.isdispose = isdispose;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getGatheringid() {
