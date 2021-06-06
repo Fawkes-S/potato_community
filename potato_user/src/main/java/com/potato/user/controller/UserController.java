@@ -125,7 +125,7 @@ public class UserController {
         List<User> list = userService.findSearch(map);
         if(null == list || list.size() ==0 ){
             userService.add(user);
-            return new Result(true,StatusCode.OK,"注册成功！");
+            return new Result(true,StatusCode.OK,"注册成功");
         }
         return new Result(true,StatusCode.OK,"此手机号已经注册过，请重新注册！");
 
